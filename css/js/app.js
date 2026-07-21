@@ -1,4 +1,4 @@
-// DATA PRODUK (SANDIKALE PROJECT)
+// DATA PRODUK INITIAL (SANDIKALE PROJECT)
 let products = [
     { id: 1, name: "T-Shirt Oversize Sandikale", category: "Apparel", price: 135000, stock: 25, icon: "fa-shirt" },
     { id: 2, name: "Totebag Canvas Black", category: "Bag", price: 65000, stock: 40, icon: "fa-bag-shopping" },
@@ -11,21 +11,34 @@ let products = [
 let cart = [];
 let activeCategory = 'All';
 
-// NAVIGASI APLIKASI
-function switchMenu(menuName) {
+// PERPINDAHAN MENU NAVIGASI
+function switchMenu(menuName, element) {
+    // 1. Sembunyikan semua kontener menu
     document.querySelectorAll('.menu-content').forEach(el => el.classList.add('hidden'));
     
+    // 2. Tampilkan menu yang dipilih
     const selectedMenu = document.getElementById('menu-' + menuName);
     if(selectedMenu) {
         selectedMenu.classList.remove('hidden');
     }
 
+    // 3. Highlight tombol aktif di sidebar
+    if(element) {
+        document.querySelectorAll('.menu-btn').forEach(btn => {
+            btn.classList.remove('bg-brandRed', 'text-white');
+            btn.classList.add('text-gray-300');
+        });
+        element.classList.add('bg-brandRed', 'text-white');
+        element.classList.remove('text-gray-300');
+    }
+
+    // 4. Jika pindah ke menu produk, render tabel produk
     if (menuName === 'produk') {
         renderProductTable();
     }
 }
 
-// RENDER KASIR
+// RENDER KATALOG KASIR
 function renderProducts() {
     const listContainer = document.getElementById('product-list');
     if(!listContainer) return;
@@ -168,14 +181,20 @@ function renderProductTable() {
     });
 }
 
-// MODAL CONTROLLER
+// FUNGSI MODAL TAMBAH PRODUK
 function openProductModal() {
-    document.getElementById('product-modal').classList.remove('hidden');
+    const modal = document.getElementById('product-modal');
+    if(modal) {
+        modal.classList.remove('hidden');
+    }
 }
 
 function closeProductModal() {
-    document.getElementById('product-modal').classList.add('hidden');
-    document.getElementById('add-product-form').reset();
+    const modal = document.getElementById('product-modal');
+    if(modal) {
+        modal.classList.add('hidden');
+        document.getElementById('add-product-form').reset();
+    }
 }
 
 function saveProduct(event) {
