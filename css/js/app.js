@@ -1,4 +1,4 @@
-// DATA PRODUK DUMMY (SANDIKALE PROJECT)
+// DATA PRODUK (SANDIKALE PROJECT)
 let products = [
     { id: 1, name: "T-Shirt Oversize Sandikale", category: "Apparel", price: 135000, stock: 25, icon: "fa-shirt" },
     { id: 2, name: "Totebag Canvas Black", category: "Bag", price: 65000, stock: 40, icon: "fa-bag-shopping" },
@@ -11,11 +11,26 @@ let products = [
 let cart = [];
 let activeCategory = 'All';
 
-// RENDER PRODUK KE HALAMAN
+// NAVIGASI APLIKASI
+function switchMenu(menuName) {
+    document.querySelectorAll('.menu-content').forEach(el => el.classList.add('hidden'));
+    
+    const selectedMenu = document.getElementById('menu-' + menuName);
+    if(selectedMenu) {
+        selectedMenu.classList.remove('hidden');
+    }
+
+    if (menuName === 'produk') {
+        renderProductTable();
+    }
+}
+
+// RENDER KASIR
 function renderProducts() {
     const listContainer = document.getElementById('product-list');
-    const searchInput = document.getElementById('search-product').value.toLowerCase();
+    if(!listContainer) return;
     
+    const searchInput = document.getElementById('search-product').value.toLowerCase();
     listContainer.innerHTML = '';
 
     const filtered = products.filter(p => {
@@ -23,11 +38,6 @@ function renderProducts() {
         const matchesSearch = p.name.toLowerCase().includes(searchInput);
         return matchesCategory && matchesSearch;
     });
-
-    if(filtered.length === 0) {
-        listContainer.innerHTML = `<p class="text-xs text-gray-500 col-span-3 text-center py-6">Produk tidak ditemukan.</p>`;
-        return;
-    }
 
     filtered.forEach(product => {
         listContainer.innerHTML += `
@@ -47,13 +57,11 @@ function renderProducts() {
     });
 }
 
-// FILTER KATEGORI
 function filterCategory(category) {
     activeCategory = category;
     renderProducts();
 }
 
-// TAMBAH KE KERANJANG
 function addToCart(productId) {
     const product = products.find(p => p.id === productId);
     const cartItem = cart.find(item => item.id === productId);
@@ -70,7 +78,6 @@ function addToCart(productId) {
     updateCartUI();
 }
 
-// UPDATE JUMLAH ITEM (PLUS/MINUS)
 function updateQty(productId, amount) {
     const cartItem = cart.find(item => item.id === productId);
     if (cartItem) {
@@ -82,15 +89,15 @@ function updateQty(productId, amount) {
     updateCartUI();
 }
 
-// KOSONGKAN KERANJANG
 function clearCart() {
     cart = [];
     updateCartUI();
 }
 
-// RENDER KERANJANG BELANJA
 function updateCartUI() {
     const cartContainer = document.getElementById('cart-list');
+    if(!cartContainer) return;
+    
     cartContainer.innerHTML = '';
 
     if (cart.length === 0) {
@@ -101,7 +108,6 @@ function updateCartUI() {
     }
 
     let total = 0;
-
     cart.forEach(item => {
         const itemTotal = item.price * item.qty;
         total += itemTotal;
@@ -125,32 +131,21 @@ function updateCartUI() {
     document.getElementById('total-val').innerText = `Rp ${total.toLocaleString('id-ID')}`;
 }
 
-// PROSES PEMBAYARAN
 function processPayment() {
     if(cart.length === 0) {
         alert("Keranjang masih kosong!");
         return;
     }
-    
-    alert("Transaksi Berhasil! Nota siap dicetak.");
+    alert("Transaksi Berhasil!");
     clearCart();
 }
-
-// INISIALISASI
-document.addEventListener("DOMContentLoaded", () => {
-    renderProducts();
-});
-// ==========================================
-// LOGIKA MANAJEMEN PRODUK (CRUD)
-// ==========================================
 
 // RENDER TABEL PRODUK
 function renderProductTable() {
     const tableBody = document.getElementById('product-table-body');
-    if (!tableBody) return;
-    
-    tableBody.innerHTML = '';
+    if(!tableBody) return;
 
+    tableBody.innerHTML = '';
     products.forEach(p => {
         tableBody.innerHTML += `
             <tr class="hover:bg-neutral-800/50 transition">
@@ -173,7 +168,7 @@ function renderProductTable() {
     });
 }
 
-// BUKA & TUTUP MODAL
+// MODAL CONTROLLER
 function openProductModal() {
     document.getElementById('product-modal').classList.remove('hidden');
 }
@@ -183,7 +178,6 @@ function closeProductModal() {
     document.getElementById('add-product-form').reset();
 }
 
-// SIMPAN PRODUK BARU
 function saveProduct(event) {
     event.preventDefault();
 
@@ -192,31 +186,19 @@ function saveProduct(event) {
     const price = parseInt(document.getElementById('p-price').value);
     const stock = parseInt(document.getElementById('p-stock').value);
 
-    // Tentukan icon berdasarkan kategori
     let icon = "fa-box";
     if (category === "Apparel") icon = "fa-shirt";
     if (category === "Bag") icon = "fa-bag-shopping";
     if (category === "Accessories") icon = "fa-star";
 
-    const newProduct = {
-        id: Date.now(), // ID Unik
-        name,
-        category,
-        price,
-        stock,
-        icon
-    };
-
-    products.push(newProduct);
+    products.push({ id: Date.now(), name, category, price, stock, icon });
     
-    // Refresh tampilan
     renderProducts();
     renderProductTable();
     closeProductModal();
     alert("Produk berhasil ditambahkan!");
 }
 
-// HAPUS PRODUK
 function deleteProduct(id) {
     if (confirm("Yakin ingin menghapus produk ini?")) {
         products = products.filter(p => p.id !== id);
@@ -225,82 +207,7 @@ function deleteProduct(id) {
     }
 }
 
-// UPDATE FUNGSI SWITCH MENU AGAR OTOMATIS RENDER TABEL
-const oldSwitchMenu = window.switchMenu;
-window.switchMenu = function(menuName) {
-    document.querySelectorAll('.menu-content').forEach(el => el.classList.add('hidden'));
-    document.getElementById('menu-' + menuName).classList.remove('hidden');
-    
-    if (menuName === 'produk') {
-        renderProductTable();
-    }
-};
-// ==========================================
-// LOGIKA BUKA & TUTUP MODAL PRODUK
-// ==========================================
-
-function openProductModal() {
-    const modal = document.getElementById('product-modal');
-    if (modal) {
-        modal.classList.remove('hidden');
-    } else {
-        console.error("Modal dengan ID 'product-modal' tidak ditemukan!");
-    }
-}
-
-function closeProductModal() {
-    const modal = document.getElementById('product-modal');
-    if (modal) {
-        modal.classList.add('hidden');
-        document.getElementById('add-product-form').reset();
-    }
-}
-
-// SIMPAN PRODUK BARU
-function saveProduct(event) {
-    event.preventDefault();
-
-    const name = document.getElementById('p-name').value;
-    const category = document.getElementById('p-category').value;
-    const price = parseInt(document.getElementById('p-price').value);
-    const stock = parseInt(document.getElementById('p-stock').value);
-
-    let icon = "fa-box";
-    if (category === "Apparel") icon = "fa-shirt";
-    if (category === "Bag") icon = "fa-bag-shopping";
-    if (category === "Accessories") icon = "fa-star";
-
-    const newProduct = {
-        id: Date.now(),
-        name,
-        category,
-        price,
-        stock,
-        icon
-    };
-
-    products.push(newProduct);
-    
-    // Refresh Tampilan
+// STARTUP
+document.addEventListener("DOMContentLoaded", () => {
     renderProducts();
-    renderProductTable();
-    closeProductModal();
-    alert("Produk berhasil ditambahkan!");
-}
-
-// PERBAIKAN NAVIGASI PERPINDAHAN MENU
-function switchMenu(menuName) {
-    // Sembunyikan semua section
-    document.querySelectorAll('.menu-content').forEach(el => el.classList.add('hidden'));
-    
-    // Tampilkan section yang dipilih
-    const targetMenu = document.getElementById('menu-' + menuName);
-    if (targetMenu) {
-        targetMenu.classList.remove('hidden');
-    }
-    
-    // Jika masuk ke menu produk, render tabelnya
-    if (menuName === 'produk') {
-        renderProductTable();
-    }
-}
+});
