@@ -1,4 +1,4 @@
-// DATA PRODUK INITIAL (SANDIKALE PROJECT)
+// DATA INITIAL PRODUK
 let products = [
     { id: 1, name: "T-Shirt Oversize Sandikale", category: "Apparel", price: 135000, stock: 25, icon: "fa-shirt" },
     { id: 2, name: "Totebag Canvas Black", category: "Bag", price: 65000, stock: 40, icon: "fa-bag-shopping" },
@@ -11,31 +11,37 @@ let products = [
 let cart = [];
 let activeCategory = 'All';
 
-// PERPINDAHAN MENU NAVIGASI
+// FUNGSI UTAMA PERPINDAHAN MENU
 function switchMenu(menuName, element) {
-    // 1. Sembunyikan semua kontener menu
+    console.log("Mencoba pindah ke menu:", menuName);
+
+    // 1. Sembunyikan semua menu
     const allMenus = document.querySelectorAll('.menu-content');
-    allMenus.forEach(el => el.classList.add('hidden'));
-    
-    // 2. Tampilkan menu yang dipilih
-    const selectedMenu = document.getElementById('menu-' + menuName);
-    if(selectedMenu) {
-        selectedMenu.classList.remove('hidden');
+    allMenus.forEach(menu => {
+        menu.classList.add('hidden');
+    });
+
+    // 2. Tampilkan menu target
+    const targetMenu = document.getElementById('menu-' + menuName);
+    if (targetMenu) {
+        targetMenu.classList.remove('hidden');
+    } else {
+        console.error("Menu tidak ditemukan: menu-" + menuName);
     }
 
-    // 3. Highlight tombol aktif di sidebar
+    // 3. Ubah warna tombol aktif
     const allButtons = document.querySelectorAll('.menu-btn');
     allButtons.forEach(btn => {
         btn.classList.remove('bg-brandRed', 'text-white');
         btn.classList.add('text-gray-300');
     });
 
-    if(element) {
+    if (element) {
         element.classList.add('bg-brandRed', 'text-white');
         element.classList.remove('text-gray-300');
     }
 
-    // 4. Jika pindah ke menu produk / kasir, render ulang datanya
+    // 4. Render data sesuai menu
     if (menuName === 'produk') {
         renderProductTable();
     } else if (menuName === 'kasir') {
@@ -46,9 +52,11 @@ function switchMenu(menuName, element) {
 // RENDER KATALOG KASIR
 function renderProducts() {
     const listContainer = document.getElementById('product-list');
-    if(!listContainer) return;
-    
-    const searchInput = document.getElementById('search-product') ? document.getElementById('search-product').value.toLowerCase() : '';
+    if (!listContainer) return;
+
+    const searchElem = document.getElementById('search-product');
+    const searchInput = searchElem ? searchElem.value.toLowerCase() : '';
+
     listContainer.innerHTML = '';
 
     const filtered = products.filter(p => {
@@ -56,6 +64,11 @@ function renderProducts() {
         const matchesSearch = p.name.toLowerCase().includes(searchInput);
         return matchesCategory && matchesSearch;
     });
+
+    if (filtered.length === 0) {
+        listContainer.innerHTML = `<p class="text-xs text-gray-500 col-span-3 py-8 text-center">Produk tidak ditemukan.</p>`;
+        return;
+    }
 
     filtered.forEach(product => {
         listContainer.innerHTML += `
@@ -85,7 +98,7 @@ function addToCart(productId) {
     const cartItem = cart.find(item => item.id === productId);
 
     if (cartItem) {
-        if(cartItem.qty < product.stock) {
+        if (cartItem.qty < product.stock) {
             cartItem.qty += 1;
         } else {
             alert("Stok tidak mencukupi!");
@@ -114,14 +127,16 @@ function clearCart() {
 
 function updateCartUI() {
     const cartContainer = document.getElementById('cart-list');
-    if(!cartContainer) return;
-    
+    if (!cartContainer) return;
+
     cartContainer.innerHTML = '';
 
     if (cart.length === 0) {
         cartContainer.innerHTML = `<p class="text-xs text-gray-500 text-center py-8">Keranjang belanja masih kosong.</p>`;
-        document.getElementById('subtotal-val').innerText = 'Rp 0';
-        document.getElementById('total-val').innerText = 'Rp 0';
+        const subTotalElem = document.getElementById('subtotal-val');
+        const totalElem = document.getElementById('total-val');
+        if (subTotalElem) subTotalElem.innerText = 'Rp 0';
+        if (totalElem) totalElem.innerText = 'Rp 0';
         return;
     }
 
@@ -145,12 +160,14 @@ function updateCartUI() {
         `;
     });
 
-    document.getElementById('subtotal-val').innerText = `Rp ${total.toLocaleString('id-ID')}`;
-    document.getElementById('total-val').innerText = `Rp ${total.toLocaleString('id-ID')}`;
+    const subTotalElem = document.getElementById('subtotal-val');
+    const totalElem = document.getElementById('total-val');
+    if (subTotalElem) subTotalElem.innerText = `Rp ${total.toLocaleString('id-ID')}`;
+    if (totalElem) totalElem.innerText = `Rp ${total.toLocaleString('id-ID')}`;
 }
 
 function processPayment() {
-    if(cart.length === 0) {
+    if (cart.length === 0) {
         alert("Keranjang masih kosong!");
         return;
     }
@@ -161,7 +178,7 @@ function processPayment() {
 // RENDER TABEL PRODUK
 function renderProductTable() {
     const tableBody = document.getElementById('product-table-body');
-    if(!tableBody) return;
+    if (!tableBody) return;
 
     tableBody.innerHTML = '';
     products.forEach(p => {
@@ -186,19 +203,20 @@ function renderProductTable() {
     });
 }
 
-// FUNGSI MODAL TAMBAH PRODUK
+// FUNGSI POP-UP MODAL
 function openProductModal() {
     const modal = document.getElementById('product-modal');
-    if(modal) {
+    if (modal) {
         modal.style.display = 'flex';
     }
 }
 
 function closeProductModal() {
     const modal = document.getElementById('product-modal');
-    if(modal) {
+    if (modal) {
         modal.style.display = 'none';
-        document.getElementById('add-product-form').reset();
+        const form = document.getElementById('add-product-form');
+        if (form) form.reset();
     }
 }
 
@@ -216,7 +234,7 @@ function saveProduct(event) {
     if (category === "Accessories") icon = "fa-star";
 
     products.push({ id: Date.now(), name, category, price, stock, icon });
-    
+
     renderProducts();
     renderProductTable();
     closeProductModal();
@@ -231,7 +249,8 @@ function deleteProduct(id) {
     }
 }
 
-// STARTUP
+// JALANKAN SAAT HALAMAN SELESAI DIMUAT
 document.addEventListener("DOMContentLoaded", () => {
+    console.log("Aplikasi Kasir Siap!");
     renderProducts();
 });
