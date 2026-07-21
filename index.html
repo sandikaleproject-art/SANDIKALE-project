@@ -40,26 +40,26 @@
             </div>
 
             <!-- Navigasi Sub-Menu -->
-            <nav class="space-y-1">
-                <button onclick="switchMenu('dashboard')" class="menu-btn w-full flex items-center gap-3 px-4 py-3 rounded-lg hover:bg-brandRed transition text-left text-sm font-medium bg-brandRed">
+            <nav class="space-y-1" id="sidebar-nav">
+                <button onclick="switchMenu('dashboard', this)" class="menu-btn w-full flex items-center gap-3 px-4 py-3 rounded-lg hover:bg-brandRed transition text-left text-sm font-medium bg-brandRed text-white">
                     <i class="fa-solid fa-chart-line w-5"></i> Dashboard
                 </button>
-                <button onclick="switchMenu('kasir')" class="menu-btn w-full flex items-center gap-3 px-4 py-3 rounded-lg hover:bg-brandRed transition text-left text-sm font-medium">
+                <button onclick="switchMenu('kasir', this)" class="menu-btn w-full flex items-center gap-3 px-4 py-3 rounded-lg hover:bg-brandRed transition text-left text-sm font-medium text-gray-300">
                     <i class="fa-solid fa-cash-register w-5"></i> Kasir
                 </button>
-                <button onclick="switchMenu('produk')" class="menu-btn w-full flex items-center gap-3 px-4 py-3 rounded-lg hover:bg-brandRed transition text-left text-sm font-medium">
+                <button onclick="switchMenu('produk', this)" class="menu-btn w-full flex items-center gap-3 px-4 py-3 rounded-lg hover:bg-brandRed transition text-left text-sm font-medium text-gray-300">
                     <i class="fa-solid fa-box w-5"></i> Produk
                 </button>
-                <button onclick="switchMenu('kategori')" class="menu-btn w-full flex items-center gap-3 px-4 py-3 rounded-lg hover:bg-brandRed transition text-left text-sm font-medium">
+                <button onclick="switchMenu('kategori', this)" class="menu-btn w-full flex items-center gap-3 px-4 py-3 rounded-lg hover:bg-brandRed transition text-left text-sm font-medium text-gray-300">
                     <i class="fa-solid fa-tags w-5"></i> Kategori
                 </button>
-                <button onclick="switchMenu('customer')" class="menu-btn w-full flex items-center gap-3 px-4 py-3 rounded-lg hover:bg-brandRed transition text-left text-sm font-medium">
+                <button onclick="switchMenu('customer', this)" class="menu-btn w-full flex items-center gap-3 px-4 py-3 rounded-lg hover:bg-brandRed transition text-left text-sm font-medium text-gray-300">
                     <i class="fa-solid fa-users w-5"></i> Customer
                 </button>
-                <button onclick="switchMenu('laporan')" class="menu-btn w-full flex items-center gap-3 px-4 py-3 rounded-lg hover:bg-brandRed transition text-left text-sm font-medium">
+                <button onclick="switchMenu('laporan', this)" class="menu-btn w-full flex items-center gap-3 px-4 py-3 rounded-lg hover:bg-brandRed transition text-left text-sm font-medium text-gray-300">
                     <i class="fa-solid fa-file-invoice-dollar w-5"></i> Laporan
                 </button>
-                <button onclick="switchMenu('user')" class="menu-btn w-full flex items-center gap-3 px-4 py-3 rounded-lg hover:bg-brandRed transition text-left text-sm font-medium">
+                <button onclick="switchMenu('user', this)" class="menu-btn w-full flex items-center gap-3 px-4 py-3 rounded-lg hover:bg-brandRed transition text-left text-sm font-medium text-gray-300">
                     <i class="fa-solid fa-user-gear w-5"></i> Manajemen User
                 </button>
             </nav>
@@ -78,7 +78,7 @@
     <!-- AREA KONTEN UTAMA -->
     <main class="flex-1 overflow-y-auto p-6 bg-brandDark">
 
-        <!-- 1. DASHBOARD -->
+        <!-- 1. DASHBOARD OVERVIEW -->
         <section id="menu-dashboard" class="menu-content">
             <h2 class="text-2xl font-bold mb-4 text-white">Dashboard Overview</h2>
             <div class="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6">
@@ -157,7 +157,6 @@
                     <p class="text-xs text-gray-400">Kelola stok, harga, dan item merchandise SANDIKALE PROJECT</p>
                 </div>
                 
-                <!-- TOMBOL TAMBAH PRODUK -->
                 <button type="button" onclick="openProductModal()" class="bg-brandRed hover:bg-red-700 text-white text-sm font-semibold px-4 py-2.5 rounded-lg flex items-center gap-2 transition cursor-pointer shadow-lg">
                     <i class="fa-solid fa-plus"></i> Tambah Produk
                 </button>
@@ -181,45 +180,6 @@
             </div>
         </section>
 
-        <!-- MODAL POPUP (Ditaruh diluar section agar selalu di atas) -->
-        <div id="product-modal" class="fixed inset-0 bg-black/80 flex items-center justify-center hidden z-50">
-            <div class="bg-brandGray border border-neutral-800 p-6 rounded-xl w-full max-w-md shadow-2xl">
-                <div class="flex justify-between items-center mb-4 border-b border-neutral-800 pb-3">
-                    <h3 class="font-bold text-lg text-white">Tambah Produk Baru</h3>
-                    <button type="button" onclick="closeProductModal()" class="text-gray-400 hover:text-white"><i class="fa-solid fa-xmark text-lg"></i></button>
-                </div>
-                
-                <form id="add-product-form" onsubmit="saveProduct(event)" class="space-y-4">
-                    <div>
-                        <label class="block text-xs text-gray-400 mb-1">Nama Produk</label>
-                        <input type="text" id="p-name" required placeholder="Contoh: Totebag Canvas Black" class="w-full bg-neutral-900 border border-neutral-700 rounded-lg px-3 py-2 text-sm text-white focus:outline-none focus:border-brandRed">
-                    </div>
-                    <div>
-                        <label class="block text-xs text-gray-400 mb-1">Kategori</label>
-                        <select id="p-category" class="w-full bg-neutral-900 border border-neutral-700 rounded-lg px-3 py-2 text-sm text-white focus:outline-none focus:border-brandRed">
-                            <option value="Apparel">Apparel</option>
-                            <option value="Bag">Bag</option>
-                            <option value="Accessories">Accessories</option>
-                        </select>
-                    </div>
-                    <div class="grid grid-cols-2 gap-4">
-                        <div>
-                            <label class="block text-xs text-gray-400 mb-1">Harga (Rp)</label>
-                            <input type="number" id="p-price" required placeholder="50000" class="w-full bg-neutral-900 border border-neutral-700 rounded-lg px-3 py-2 text-sm text-white focus:outline-none focus:border-brandRed">
-                        </div>
-                        <div>
-                            <label class="block text-xs text-gray-400 mb-1">Stok Awal</label>
-                            <input type="number" id="p-stock" required placeholder="10" class="w-full bg-neutral-900 border border-neutral-700 rounded-lg px-3 py-2 text-sm text-white focus:outline-none focus:border-brandRed">
-                        </div>
-                    </div>
-                    <div class="pt-2 flex justify-end gap-2">
-                        <button type="button" onclick="closeProductModal()" class="px-4 py-2 bg-neutral-800 text-xs font-semibold text-gray-300 rounded-lg hover:bg-neutral-700">Batal</button>
-                        <button type="submit" class="px-4 py-2 bg-brandRed text-xs font-semibold text-white rounded-lg hover:bg-red-700">Simpan Produk</button>
-                    </div>
-                </form>
-            </div>
-        </div>
-
         <!-- 4. SUB MENU LAINNYA -->
         <section id="menu-kategori" class="menu-content hidden"><h2 class="text-2xl font-bold mb-4">Kategori Produk</h2></section>
         <section id="menu-customer" class="menu-content hidden"><h2 class="text-2xl font-bold mb-4">Data Customer</h2></section>
@@ -227,6 +187,45 @@
         <section id="menu-user" class="menu-content hidden"><h2 class="text-2xl font-bold mb-4">Manajemen User</h2></section>
 
     </main>
+
+    <!-- POP-UP MODAL (Di luar main tag agar independen dari menu manapun) -->
+    <div id="product-modal" class="fixed inset-0 bg-black/80 flex items-center justify-center hidden z-50">
+        <div class="bg-brandGray border border-neutral-800 p-6 rounded-xl w-full max-w-md shadow-2xl relative">
+            <div class="flex justify-between items-center mb-4 border-b border-neutral-800 pb-3">
+                <h3 class="font-bold text-lg text-white">Tambah Produk Baru</h3>
+                <button type="button" onclick="closeProductModal()" class="text-gray-400 hover:text-white"><i class="fa-solid fa-xmark text-lg"></i></button>
+            </div>
+            
+            <form id="add-product-form" onsubmit="saveProduct(event)" class="space-y-4">
+                <div>
+                    <label class="block text-xs text-gray-400 mb-1">Nama Produk</label>
+                    <input type="text" id="p-name" required placeholder="Contoh: Totebag Canvas Black" class="w-full bg-neutral-900 border border-neutral-700 rounded-lg px-3 py-2 text-sm text-white focus:outline-none focus:border-brandRed">
+                </div>
+                <div>
+                    <label class="block text-xs text-gray-400 mb-1">Kategori</label>
+                    <select id="p-category" class="w-full bg-neutral-900 border border-neutral-700 rounded-lg px-3 py-2 text-sm text-white focus:outline-none focus:border-brandRed">
+                        <option value="Apparel">Apparel</option>
+                        <option value="Bag">Bag</option>
+                        <option value="Accessories">Accessories</option>
+                    </select>
+                </div>
+                <div class="grid grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-xs text-gray-400 mb-1">Harga (Rp)</label>
+                        <input type="number" id="p-price" required placeholder="50000" class="w-full bg-neutral-900 border border-neutral-700 rounded-lg px-3 py-2 text-sm text-white focus:outline-none focus:border-brandRed">
+                    </div>
+                    <div>
+                        <label class="block text-xs text-gray-400 mb-1">Stok Awal</label>
+                        <input type="number" id="p-stock" required placeholder="10" class="w-full bg-neutral-900 border border-neutral-700 rounded-lg px-3 py-2 text-sm text-white focus:outline-none focus:border-brandRed">
+                    </div>
+                </div>
+                <div class="pt-2 flex justify-end gap-2">
+                    <button type="button" onclick="closeProductModal()" class="px-4 py-2 bg-neutral-800 text-xs font-semibold text-gray-300 rounded-lg hover:bg-neutral-700">Batal</button>
+                    <button type="submit" class="px-4 py-2 bg-brandRed text-xs font-semibold text-white rounded-lg hover:bg-red-700">Simpan Produk</button>
+                </div>
+            </form>
+        </div>
+    </div>
 
     <!-- LOAD SCRIPT UTAMA -->
     <script src="app.js"></script>
