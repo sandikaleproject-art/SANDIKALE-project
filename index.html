@@ -25,8 +25,8 @@
 </head>
 <body class="bg-brandDark text-brandCream font-sans flex h-screen overflow-hidden">
 
-    <!-- SIDEBAR NAVIGASI (z-10 agar selalu bisa diklik) -->
-    <aside class="w-64 bg-brandGray border-r border-neutral-800 flex flex-col justify-between p-4 flex-shrink-0 z-10 relative">
+    <!-- SIDEBAR NAVIGASI -->
+    <aside class="w-64 bg-brandGray border-r border-neutral-800 flex flex-col justify-between p-4 flex-shrink-0 z-20 relative">
         <div>
             <!-- Logo Header -->
             <div class="flex items-center gap-3 px-2 py-4 border-b border-neutral-800 mb-6">
@@ -42,25 +42,25 @@
             <!-- Navigasi Sub-Menu -->
             <nav class="space-y-1" id="sidebar-nav">
                 <button type="button" onclick="switchMenu('dashboard', this)" class="menu-btn w-full flex items-center gap-3 px-4 py-3 rounded-lg hover:bg-brandRed transition text-left text-sm font-medium bg-brandRed text-white cursor-pointer">
-                    <i class="fa-solid fa-chart-line w-5"></i> Dashboard
+                    <i class="fa-solid fa-chart-line w-5 pointer-events-none"></i> <span class="pointer-events-none">Dashboard</span>
                 </button>
                 <button type="button" onclick="switchMenu('kasir', this)" class="menu-btn w-full flex items-center gap-3 px-4 py-3 rounded-lg hover:bg-brandRed transition text-left text-sm font-medium text-gray-300 cursor-pointer">
-                    <i class="fa-solid fa-cash-register w-5"></i> Kasir
+                    <i class="fa-solid fa-cash-register w-5 pointer-events-none"></i> <span class="pointer-events-none">Kasir</span>
                 </button>
                 <button type="button" onclick="switchMenu('produk', this)" class="menu-btn w-full flex items-center gap-3 px-4 py-3 rounded-lg hover:bg-brandRed transition text-left text-sm font-medium text-gray-300 cursor-pointer">
-                    <i class="fa-solid fa-box w-5"></i> Produk
+                    <i class="fa-solid fa-box w-5 pointer-events-none"></i> <span class="pointer-events-none">Produk</span>
                 </button>
                 <button type="button" onclick="switchMenu('kategori', this)" class="menu-btn w-full flex items-center gap-3 px-4 py-3 rounded-lg hover:bg-brandRed transition text-left text-sm font-medium text-gray-300 cursor-pointer">
-                    <i class="fa-solid fa-tags w-5"></i> Kategori
+                    <i class="fa-solid fa-tags w-5 pointer-events-none"></i> <span class="pointer-events-none">Kategori</span>
                 </button>
                 <button type="button" onclick="switchMenu('customer', this)" class="menu-btn w-full flex items-center gap-3 px-4 py-3 rounded-lg hover:bg-brandRed transition text-left text-sm font-medium text-gray-300 cursor-pointer">
-                    <i class="fa-solid fa-users w-5"></i> Customer
+                    <i class="fa-solid fa-users w-5 pointer-events-none"></i> <span class="pointer-events-none">Customer</span>
                 </button>
                 <button type="button" onclick="switchMenu('laporan', this)" class="menu-btn w-full flex items-center gap-3 px-4 py-3 rounded-lg hover:bg-brandRed transition text-left text-sm font-medium text-gray-300 cursor-pointer">
-                    <i class="fa-solid fa-file-invoice-dollar w-5"></i> Laporan
+                    <i class="fa-solid fa-file-invoice-dollar w-5 pointer-events-none"></i> <span class="pointer-events-none">Laporan</span>
                 </button>
                 <button type="button" onclick="switchMenu('user', this)" class="menu-btn w-full flex items-center gap-3 px-4 py-3 rounded-lg hover:bg-brandRed transition text-left text-sm font-medium text-gray-300 cursor-pointer">
-                    <i class="fa-solid fa-user-gear w-5"></i> Manajemen User
+                    <i class="fa-solid fa-user-gear w-5 pointer-events-none"></i> <span class="pointer-events-none">Manajemen User</span>
                 </button>
             </nav>
         </div>
@@ -76,7 +76,7 @@
     </aside>
 
     <!-- AREA KONTEN UTAMA -->
-    <main class="flex-1 overflow-y-auto p-6 bg-brandDark relative">
+    <main class="flex-1 overflow-y-auto p-6 bg-brandDark relative z-0">
 
         <!-- 1. DASHBOARD OVERVIEW -->
         <section id="menu-dashboard" class="menu-content">
@@ -188,8 +188,8 @@
 
     </main>
 
-    <!-- POP-UP MODAL (Gunakan class hidden secara ketat agar tidak menutupi layar saat tidak dibuka) -->
-    <div id="product-modal" class="fixed inset-0 bg-black/80 flex items-center justify-center hidden z-50">
+    <!-- POP-UP MODAL (style="display: none" bawaan agar tidak memblokir layar) -->
+    <div id="product-modal" style="display: none;" class="fixed inset-0 bg-black/80 items-center justify-center z-50">
         <div class="bg-brandGray border border-neutral-800 p-6 rounded-xl w-full max-w-md shadow-2xl relative">
             <div class="flex justify-between items-center mb-4 border-b border-neutral-800 pb-3">
                 <h3 class="font-bold text-lg text-white">Tambah Produk Baru</h3>
