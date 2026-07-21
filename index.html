@@ -1,1 +1,141 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SANDIKALE PROJECT - POS System</title>
+    <!-- Tailwind CSS CDN (Gratis & Tanpa Install) -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- FontAwesome Icon -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        brandDark: '#121212',
+                        brandRed: '#DC2626',
+                        brandCream: '#F5F5EC',
+                        brandGray: '#1E1E1E'
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-brandDark text-brandCream font-sans flex h-screen overflow-hidden">
 
+    <!-- SIDEBAR NAVIGASI -->
+    <aside class="w-64 bg-brandGray border-r border-neutral-800 flex flex-col justify-between p-4">
+        <div>
+            <!-- Logo Header -->
+            <div class="flex items-center gap-3 px-2 py-4 border-b border-neutral-800 mb-6">
+                <div class="w-10 h-10 bg-brandRed rounded flex items-center justify-center font-bold text-xl text-white">
+                    S
+                </div>
+                <div>
+                    <h1 class="font-bold text-lg leading-tight tracking-wider">SANDIKALE</h1>
+                    <p class="text-xs text-red-500 font-semibold tracking-widest">- PROJECT -</p>
+                </div>
+            </div>
+
+            <!-- Navigasi Sub-Menu -->
+            <nav class="space-y-1">
+                <button onclick="switchMenu('dashboard')" class="menu-btn w-full flex items-center gap-3 px-4 py-3 rounded-lg hover:bg-brandRed transition text-left text-sm font-medium bg-brandRed">
+                    <i class="fa-solid fa-chart-line w-5"></i> Dashboard
+                </button>
+                <button onclick="switchMenu('kasir')" class="menu-btn w-full flex items-center gap-3 px-4 py-3 rounded-lg hover:bg-brandRed transition text-left text-sm font-medium">
+                    <i class="fa-solid fa-cash-register w-5"></i> Kasir
+                </button>
+                <button onclick="switchMenu('produk')" class="menu-btn w-full flex items-center gap-3 px-4 py-3 rounded-lg hover:bg-brandRed transition text-left text-sm font-medium">
+                    <i class="fa-solid fa-box w-5"></i> Produk
+                </button>
+                <button onclick="switchMenu('kategori')" class="menu-btn w-full flex items-center gap-3 px-4 py-3 rounded-lg hover:bg-brandRed transition text-left text-sm font-medium">
+                    <i class="fa-solid fa-tags w-5"></i> Kategori
+                </button>
+                <button onclick="switchMenu('customer')" class="menu-btn w-full flex items-center gap-3 px-4 py-3 rounded-lg hover:bg-brandRed transition text-left text-sm font-medium">
+                    <i class="fa-solid fa-users w-5"></i> Customer
+                </button>
+                <button onclick="switchMenu('laporan')" class="menu-btn w-full flex items-center gap-3 px-4 py-3 rounded-lg hover:bg-brandRed transition text-left text-sm font-medium">
+                    <i class="fa-solid fa-file-invoice-dollar w-5"></i> Laporan
+                </button>
+                <button onclick="switchMenu('user')" class="menu-btn w-full flex items-center gap-3 px-4 py-3 rounded-lg hover:bg-brandRed transition text-left text-sm font-medium">
+                    <i class="fa-solid fa-user-gear w-5"></i> Manajemen User
+                </button>
+            </nav>
+        </div>
+
+        <!-- User Profile Bottom -->
+        <div class="border-t border-neutral-800 pt-4 flex items-center justify-between px-2">
+            <div class="flex items-center gap-2">
+                <div class="w-8 h-8 rounded-full bg-neutral-700 flex items-center justify-center text-xs">Admin</div>
+                <span class="text-sm font-medium">Kasir 1</span>
+            </div>
+            <i class="fa-solid fa-right-from-bracket cursor-pointer hover:text-brandRed"></i>
+        </div>
+    </aside>
+
+    <!-- AREA KONTEN UTAMA -->
+    <main class="flex-1 overflow-y-auto p-6 bg-brandDark">
+        <!-- Section Dashboard -->
+        <section id="menu-dashboard" class="menu-content">
+            <h2 class="text-2xl font-bold mb-4 text-white">Dashboard Overview</h2>
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6">
+                <div class="bg-brandGray p-4 rounded-xl border border-neutral-800">
+                    <p class="text-xs text-gray-400">Penjualan Hari Ini</p>
+                    <h3 class="text-xl font-bold text-brandCream">Rp 0</h3>
+                </div>
+                <div class="bg-brandGray p-4 rounded-xl border border-neutral-800">
+                    <p class="text-xs text-gray-400">Total Transaksi</p>
+                    <h3 class="text-xl font-bold text-brandCream">0</h3>
+                </div>
+                <div class="bg-brandGray p-4 rounded-xl border border-neutral-800">
+                    <p class="text-xs text-gray-400">Total Produk</p>
+                    <h3 class="text-xl font-bold text-brandCream">0</h3>
+                </div>
+                <div class="bg-brandGray p-4 rounded-xl border border-neutral-800">
+                    <p class="text-xs text-gray-400">Stok Menipis</p>
+                    <h3 class="text-xl font-bold text-brandRed">0</h3>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section Tempat Menu Lain (Akan diisi bertahap) -->
+        <section id="menu-kasir" class="menu-content hidden">
+            <h2 class="text-2xl font-bold mb-4">Menu Kasir (POS)</h2>
+            <p class="text-gray-400">Fitur Transaksi Kasir akan muncul di sini.</p>
+        </section>
+
+        <section id="menu-produk" class="menu-content hidden">
+            <h2 class="text-2xl font-bold mb-4">Manajemen Produk Merchandise</h2>
+            <p class="text-gray-400">Katalog Baju, Totebag, Keychain, Lanyard, Mug, Sticker.</p>
+        </section>
+
+        <section id="menu-kategori" class="menu-content hidden">
+            <h2 class="text-2xl font-bold mb-4">Kategori Produk</h2>
+        </section>
+
+        <section id="menu-customer" class="menu-content hidden">
+            <h2 class="text-2xl font-bold mb-4">Data Customer</h2>
+        </section>
+
+        <section id="menu-laporan" class="menu-content hidden">
+            <h2 class="text-2xl font-bold mb-4">Laporan Penjualan</h2>
+        </section>
+
+        <section id="menu-user" class="menu-content hidden">
+            <h2 class="text-2xl font-bold mb-4">Manajemen User & Akses</h2>
+        </section>
+    </main>
+
+    <!-- SCRIPT NAVIGASI SEDERHANA -->
+    <script>
+        function switchMenu(menuName) {
+            // Sembunyikan semua section
+            document.querySelectorAll('.menu-content').forEach(el => el.classList.add('hidden'));
+            // Tampilkan section yang dipilih
+            document.getElementById('menu-' + menuName).classList.remove('hidden');
+        }
+    </script>
+</body>
+</html>
