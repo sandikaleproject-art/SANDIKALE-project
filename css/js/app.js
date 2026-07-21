@@ -14,7 +14,8 @@ let activeCategory = 'All';
 // PERPINDAHAN MENU NAVIGASI
 function switchMenu(menuName, element) {
     // 1. Sembunyikan semua kontener menu
-    document.querySelectorAll('.menu-content').forEach(el => el.classList.add('hidden'));
+    const allMenus = document.querySelectorAll('.menu-content');
+    allMenus.forEach(el => el.classList.add('hidden'));
     
     // 2. Tampilkan menu yang dipilih
     const selectedMenu = document.getElementById('menu-' + menuName);
@@ -23,18 +24,22 @@ function switchMenu(menuName, element) {
     }
 
     // 3. Highlight tombol aktif di sidebar
+    const allButtons = document.querySelectorAll('.menu-btn');
+    allButtons.forEach(btn => {
+        btn.classList.remove('bg-brandRed', 'text-white');
+        btn.classList.add('text-gray-300');
+    });
+
     if(element) {
-        document.querySelectorAll('.menu-btn').forEach(btn => {
-            btn.classList.remove('bg-brandRed', 'text-white');
-            btn.classList.add('text-gray-300');
-        });
         element.classList.add('bg-brandRed', 'text-white');
         element.classList.remove('text-gray-300');
     }
 
-    // 4. Jika pindah ke menu produk, render tabel produk
+    // 4. Jika pindah ke menu produk / kasir, render ulang datanya
     if (menuName === 'produk') {
         renderProductTable();
+    } else if (menuName === 'kasir') {
+        renderProducts();
     }
 }
 
@@ -43,7 +48,7 @@ function renderProducts() {
     const listContainer = document.getElementById('product-list');
     if(!listContainer) return;
     
-    const searchInput = document.getElementById('search-product').value.toLowerCase();
+    const searchInput = document.getElementById('search-product') ? document.getElementById('search-product').value.toLowerCase() : '';
     listContainer.innerHTML = '';
 
     const filtered = products.filter(p => {
@@ -185,14 +190,14 @@ function renderProductTable() {
 function openProductModal() {
     const modal = document.getElementById('product-modal');
     if(modal) {
-        modal.classList.remove('hidden');
+        modal.style.display = 'flex';
     }
 }
 
 function closeProductModal() {
     const modal = document.getElementById('product-modal');
     if(modal) {
-        modal.classList.add('hidden');
+        modal.style.display = 'none';
         document.getElementById('add-product-form').reset();
     }
 }
