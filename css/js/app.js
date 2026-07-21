@@ -235,3 +235,72 @@ window.switchMenu = function(menuName) {
         renderProductTable();
     }
 };
+// ==========================================
+// LOGIKA BUKA & TUTUP MODAL PRODUK
+// ==========================================
+
+function openProductModal() {
+    const modal = document.getElementById('product-modal');
+    if (modal) {
+        modal.classList.remove('hidden');
+    } else {
+        console.error("Modal dengan ID 'product-modal' tidak ditemukan!");
+    }
+}
+
+function closeProductModal() {
+    const modal = document.getElementById('product-modal');
+    if (modal) {
+        modal.classList.add('hidden');
+        document.getElementById('add-product-form').reset();
+    }
+}
+
+// SIMPAN PRODUK BARU
+function saveProduct(event) {
+    event.preventDefault();
+
+    const name = document.getElementById('p-name').value;
+    const category = document.getElementById('p-category').value;
+    const price = parseInt(document.getElementById('p-price').value);
+    const stock = parseInt(document.getElementById('p-stock').value);
+
+    let icon = "fa-box";
+    if (category === "Apparel") icon = "fa-shirt";
+    if (category === "Bag") icon = "fa-bag-shopping";
+    if (category === "Accessories") icon = "fa-star";
+
+    const newProduct = {
+        id: Date.now(),
+        name,
+        category,
+        price,
+        stock,
+        icon
+    };
+
+    products.push(newProduct);
+    
+    // Refresh Tampilan
+    renderProducts();
+    renderProductTable();
+    closeProductModal();
+    alert("Produk berhasil ditambahkan!");
+}
+
+// PERBAIKAN NAVIGASI PERPINDAHAN MENU
+function switchMenu(menuName) {
+    // Sembunyikan semua section
+    document.querySelectorAll('.menu-content').forEach(el => el.classList.add('hidden'));
+    
+    // Tampilkan section yang dipilih
+    const targetMenu = document.getElementById('menu-' + menuName);
+    if (targetMenu) {
+        targetMenu.classList.remove('hidden');
+    }
+    
+    // Jika masuk ke menu produk, render tabelnya
+    if (menuName === 'produk') {
+        renderProductTable();
+    }
+}
