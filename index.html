@@ -101,10 +101,66 @@
         </section>
 
         <!-- Section Tempat Menu Lain (Akan diisi bertahap) -->
-        <section id="menu-kasir" class="menu-content hidden">
-            <h2 class="text-2xl font-bold mb-4">Menu Kasir (POS)</h2>
-            <p class="text-gray-400">Fitur Transaksi Kasir akan muncul di sini.</p>
-        </section>
+    <!-- Section Menu Kasir (POS) -->
+<section id="menu-kasir" class="menu-content hidden h-full">
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 h-full">
+        
+        <!-- KOLOM KIRI: Katalog Produk & Kategori -->
+        <div class="lg:col-span-2 flex flex-col h-full">
+            <div class="flex justify-between items-center mb-4">
+                <h2 class="text-2xl font-bold">Kasir Penjualan</h2>
+                <!-- Input Pencarian -->
+                <input type="text" id="search-product" onkeyup="renderProducts()" placeholder="Cari merchandise..." class="bg-brandGray border border-neutral-700 px-4 py-2 rounded-lg text-sm text-brandCream focus:outline-none focus:border-brandRed w-64">
+            </div>
+
+            <!-- Filter Kategori -->
+            <div class="flex gap-2 mb-4 overflow-x-auto pb-2" id="category-filter">
+                <button onclick="filterCategory('All')" class="px-4 py-1.5 bg-brandRed text-white text-xs rounded-full font-medium">Semua</button>
+                <button onclick="filterCategory('Apparel')" class="px-4 py-1.5 bg-brandGray text-gray-400 text-xs rounded-full font-medium hover:bg-neutral-800">Apparel</button>
+                <button onclick="filterCategory('Bag')" class="px-4 py-1.5 bg-brandGray text-gray-400 text-xs rounded-full font-medium hover:bg-neutral-800">Bag</button>
+                <button onclick="filterCategory('Accessories')" class="px-4 py-1.5 bg-brandGray text-gray-400 text-xs rounded-full font-medium hover:bg-neutral-800">Accessories</button>
+            </div>
+
+            <!-- Grid Daftar Produk -->
+            <div id="product-list" class="grid grid-cols-2 md:grid-cols-3 gap-4 overflow-y-auto pr-2 flex-1 max-h-[calc(100vh-200px)]">
+                <!-- Data Produk Dirender lewat JavaScript -->
+            </div>
+        </div>
+
+        <!-- KOLOM KANAN: Keranjang Belanja (Cart) -->
+        <div class="bg-brandGray rounded-xl p-4 border border-neutral-800 flex flex-col justify-between h-[calc(100vh-100px)]">
+            <div>
+                <div class="flex justify-between items-center border-b border-neutral-800 pb-3 mb-4">
+                    <h3 class="font-bold text-lg"><i class="fa-solid fa-cart-shopping text-brandRed mr-2"></i>Keranjang</h3>
+                    <button onclick="clearCart()" class="text-xs text-red-500 hover:underline">Kosongkan</button>
+                </div>
+
+                <!-- Daftar Item Keranjang -->
+                <div id="cart-list" class="space-y-3 overflow-y-auto max-h-[320px] pr-1">
+                    <p class="text-xs text-gray-500 text-center py-8">Keranjang belanja masih kosong.</p>
+                </div>
+            </div>
+
+            <!-- Ringkasan Pembayaran -->
+            <div class="border-t border-neutral-800 pt-4 mt-auto">
+                <div class="flex justify-between text-sm mb-2">
+                    <span class="text-gray-400">Subtotal</span>
+                    <span id="subtotal-val" class="font-semibold">Rp 0</span>
+                </div>
+                <div class="flex justify-between text-base font-bold text-white mb-4 border-t border-neutral-800 pt-2">
+                    <span>Total</span>
+                    <span id="total-val" class="text-brandRed">Rp 0</span>
+                </div>
+
+                <!-- Tombol Bayar -->
+                <button onclick="processPayment()" class="w-full bg-brandRed hover:bg-red-700 text-white font-bold py-3 rounded-lg transition text-sm flex justify-center items-center gap-2">
+                    <i class="fa-solid fa-print"></i> Proses Bayar & Cetak Nota
+                </button>
+            </div>
+        </div>
+
+    </div>
+</section>
 
         <section id="menu-produk" class="menu-content hidden">
             <h2 class="text-2xl font-bold mb-4">Manajemen Produk Merchandise</h2>
@@ -137,5 +193,8 @@
             document.getElementById('menu-' + menuName).classList.remove('hidden');
         }
     </script>
+    <!-- Tambahkan baris ini persis di atas tag </body> -->
+    <script src="app.js"></script>
 </body>
 </html>
+
